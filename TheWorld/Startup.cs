@@ -42,10 +42,10 @@ namespace TheWorld
         {
             services.AddMvc(config =>
             {
-                if (_env.IsProduction())
-                {
-                    config.Filters.Add(new RequireHttpsAttribute());
-                }
+                //if (_env.IsProduction())
+                //{
+                //    config.Filters.Add(new RequireHttpsAttribute());
+                //}
             })
             .AddJsonOptions(config =>
             {

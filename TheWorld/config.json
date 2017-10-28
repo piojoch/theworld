@@ -3,8 +3,8 @@
     "ToAddress": "piojoch@gmail.com"
   },
   "ConnectionStrings": {
-    "WorldContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=TheWorldDb;Trusted_Connection=true;MultipleActiveResultSets=true"
-    //"WorldContextConnection": "Server=mssql3.webio.pl,2401;Database=koczo_theWorld;Uid=koczo_koczoSa;Password=Fullspeed14!;MultipleActiveResultSets=true"
+    //"WorldContextConnection": "Server=(localdb)\\MSSQLLocalDB;Database=TheWorldDb;Trusted_Connection=true;MultipleActiveResultSets=true"
+    "WorldContextConnection": "Server=mssql3.webio.pl,2401;Database=koczo_theWorld;Uid=koczo_koczoSa;Password=Fullspeed14!;MultipleActiveResultSets=true"
   },
   "Keys": {
     "BingKey": "DONTEVERPUTKEYSINSOURCECONTROL"
