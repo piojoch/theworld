@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,7 @@ using TheWorld.ViewModels;
 
 namespace TheWorld.Controllers.Api
 {
+    [Authorize]
     [Route("api/trips")]
     public class TripController : Controller
     {
@@ -28,7 +30,7 @@ namespace TheWorld.Controllers.Api
         {
             try
             {
-                var results = _repository.GetAllTrips();
+                var results = _repository.GetTripsByUsername(User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<TripViewModel>>(results));
             }
             catch (Exception ex)
@@ -39,17 +41,19 @@ namespace TheWorld.Controllers.Api
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody]TripViewModel trip)
+        public async Task<IActionResult> Post([FromBody]TripViewModel tripViewModel)
         {
             if (ModelState.IsValid)
             {
-                var newTrip = Mapper.Map<Trip>(trip);
+                var trip = Mapper.Map<Trip>(tripViewModel);
 
-                _repository.AddTrip(newTrip);
+                trip.UserName = User.Identity.Name;
+
+                _repository.AddTrip(trip);
 
                 if (await _repository.SaveChangesAsync())
                 {
-                    return Created($"api/trips/{trip.Name}", Mapper.Map<TripViewModel>(newTrip));
+                    return Created($"api/trips/{tripViewModel.Name}", Mapper.Map<TripViewModel>(trip));
                 }
             }
             return BadRequest("Failed to save the trip");
