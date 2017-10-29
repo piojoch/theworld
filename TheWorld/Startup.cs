@@ -42,10 +42,10 @@ namespace TheWorld
         {
             services.AddMvc(config =>
             {
-                //if (_env.IsProduction())
-                //{
-                //    config.Filters.Add(new RequireHttpsAttribute());
-                //}
+                if (_env.IsProduction())
+                {
+                    //config.Filters.Add(new RequireHttpsAttribute());
+                }
             })
             .AddJsonOptions(config =>
             {
@@ -79,7 +79,11 @@ namespace TheWorld
 
             services.AddSingleton(_config);
 
-            //if (_env.IsEnvironment("Development") || _env.IsEnvironment("Testing"))
+            if (_env.IsEnvironment("Development") || _env.IsEnvironment("Testing"))
+            {
+                services.AddScoped<IMailService, DebugMailService>();
+            }
+            else
             {
                 services.AddScoped<IMailService, DebugMailService>();
             }
@@ -105,15 +109,15 @@ namespace TheWorld
                 config.CreateMap<StopViewModel, Stop>().ReverseMap();
             });
 
-            //if (env.IsEnvironment("Development"))
+            if (env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
                 loggerFactory.AddDebug(LogLevel.Information);
             }
-            //else
-            //{
-            //    loggerFactory.AddDebug(LogLevel.Error);
-            //}
+            else
+            {
+                loggerFactory.AddDebug(LogLevel.Error);
+            }
 
             app.UseStaticFiles();
 
